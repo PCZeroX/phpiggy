@@ -4,11 +4,12 @@ declare (strict_types = 1);
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-use App\Controllers\HomeController;
+use App\Config\Routes;
 use Framework\App;
 
-$app = new App();
+$app    = new App();
+$routes = new Routes();
 
-$app->get('/', [HomeController::class, 'home']);
+$routes->registerRoutes($app);
 
 return $app;
