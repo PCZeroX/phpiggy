@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/main.css" />
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
 </head>
 
 <body class="bg-indigo-50 font-['Outfit']">
@@ -20,8 +21,8 @@
       <!-- Navigation Links -->
       <div class="flex lg:gap-x-10">
         <a href="/about" class="text-gray-300 hover:text-white transition">About</a>
-        <a href="/login" class="text-gray-300 hover:text-white transition">Login</a>
-        <a href="/register" class="text-gray-300 hover:text-white transition">Register</a>
+
+        <?php if (isset($_SESSION['user'])): ?>
         <a href="/logout" class="text-gray-300 hover:text-white transition">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor" class="w-6 h-6 inline-block">
@@ -31,6 +32,10 @@
 
           Logout
         </a>
+        <?php else: ?>
+        <a href="/login" class="text-gray-300 hover:text-white transition">Login</a>
+        <a href="/register" class="text-gray-300 hover:text-white transition">Register</a>
+        <?php endif;?>
       </div>
     </nav>
   </header>
