@@ -1,8 +1,13 @@
 <?php
 
-include_once __DIR__ . '/src/Framework/Database.php';
+require_once __DIR__ . "/vendor/autoload.php";
 
+use App\Config\Paths;
+use Dotenv\Dotenv;
 use Framework\Database;
+
+$dotenv = Dotenv::createImmutable(Paths::ROOT);
+$dotenv->load();
 
 $db = new Database($_ENV['DB_DRIVER'], [
   'host'   => $_ENV['DB_HOST'],

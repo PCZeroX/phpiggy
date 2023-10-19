@@ -3,6 +3,7 @@
 declare (strict_types = 1);
 
 use App\Config\Paths;
+use App\Services\TransactionService;
 use App\Services\UserService;
 use App\Services\ValidatorService;
 use Framework\Container;
@@ -10,9 +11,9 @@ use Framework\Database;
 use Framework\TemplateEngine;
 
 return [
-  TemplateEngine::class   => fn()   => new TemplateEngine(Paths::VIEW),
-  ValidatorService::class => fn() => new ValidatorService(),
-  Database::class         => fn()         => new Database($_ENV['DB_DRIVER'],
+  TemplateEngine::class     => fn()     => new TemplateEngine(Paths::VIEW),
+  ValidatorService::class   => fn()   => new ValidatorService(),
+  Database::class           => fn()           => new Database($_ENV['DB_DRIVER'],
     [
       'host'   => $_ENV['DB_HOST'],
       'port'   => $_ENV['DB_PORT'],
@@ -21,9 +22,14 @@ return [
     $_ENV['DB_USER'],
     $_ENV['DB_PASS']
   ),
-  UserService::class      => function (Container $container) {
+  UserService::class        => function (Container $container) {
     $db = $container->get(Database::class);
 
     return new UserService($db);
+  },
+  TransactionService::class => function (Container $container) {
+    $db = $container->get(Database::class);
+
+    return new TransactionService($db);
   },
 ];
