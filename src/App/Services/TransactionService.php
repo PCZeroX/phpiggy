@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace App\Services;
 
@@ -44,6 +44,15 @@ class TransactionService
       $params,
     )->findAll();
 
+    $transactions = array_map(function (array $transaction) {
+      $transaction['receipts'] = $this->db->query(
+        "SELECT * FROM receipts WHERE transaction_id = :transaction_id",
+        ['transaction_id' => $transaction['id']]
+      )->findAll();
+
+      return $transaction;
+    }, $transactions);
+
     $transactionCount = $this->db->query(
       "SELECT COUNT(*)
       FROM transactions
@@ -62,7 +71,7 @@ class TransactionService
       FROM transactions
       WHERE id = :id AND user_id = :user_id",
       [
-        'id' => $id,
+        'id'      => $id,
         'user_id' => $_SESSION['user'],
       ]
     )->find();
